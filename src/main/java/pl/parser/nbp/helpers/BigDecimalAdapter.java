@@ -1,4 +1,4 @@
-package pl.parser.nbp;
+package pl.parser.nbp.helpers;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.math.BigDecimal;

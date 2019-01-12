@@ -1,43 +1,41 @@
-package pl.parser.nbp;
+package pl.parser.nbp.helpers;
 
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.HttpClients;
+import pl.parser.nbp.xmlModels.ExchangeRatesTable;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public final class XMLHelper {
-  public static String downloadXMLData(Map<Long, List<String>> filesByYear) throws IOException {
+  public static List<ExchangeRatesTable> downloadXMLData(Map<Long, List<String>> filesByYear) throws IOException {
 
     HttpClient client = HttpClients.custom().build();
+    List<ExchangeRatesTable> list = new ArrayList<>();
 
     filesByYear.entrySet().stream()
-      .forEach(s -> s.getValue().forEach(sz -> {
+      .forEach(year -> year.getValue().forEach(fileName -> {
         HttpUriRequest request = RequestBuilder.get()
-          .setUri("http://www.nbp.pl/kursy/xml/" + sz.replace("\uFEFF", "") + ".xml")
+          .setUri("http://www.nbp.pl/kursy/xml/" + fileName.replace("\uFEFF", "") + ".xml")
           .setHeader(HttpHeaders.CONTENT_TYPE, "text/xml")
           .build();
-        List<ExchangeRatesTable> list = new ArrayList<>();
+
         try {
           list.add(unmarshall(client.execute(request).getEntity().getContent()));
         } catch (Exception e) {
           e.printStackTrace();
         }
-
-        list.forEach(a -> a.getItemList().stream().forEach(x -> System.out.println(x.getSellingRate().multiply(BigDecimal.TEN))));
-
       }));
 
-    return "zz";
+    return list;
   }
 
 //  public static String inputStreamToString(InputStream is) throws IOException {

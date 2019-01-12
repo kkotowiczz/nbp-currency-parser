@@ -1,9 +1,13 @@
 package pl.parser.nbp;
 
-import javax.sound.midi.Soundbank;
+import pl.parser.nbp.helpers.XMLHelper;
+import pl.parser.nbp.helpers.FileHelper;
+
+import pl.parser.nbp.xmlModels.ExchangeRatesTable;
+
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,11 +27,13 @@ public class MainClass {
         XMLHelper xmlHelper = new XMLHelper();
 
         try {
-            xmlHelper.downloadXMLData(filesByYear);
-        } catch (IOException e) {}
-
-
+            List<ExchangeRatesTable> exchangeRatesTableByCurrency = xmlHelper.downloadXMLData(filesByYear);
+            exchangeRatesTableByCurrency.forEach(currencyTable -> System.out.println(currencyTable.getPublicationDate()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         System.out.println((double) (System.nanoTime() - start) / 1_000_000_000.0);
+
     }
 }

@@ -1,4 +1,4 @@
-package pl.parser.nbp;
+package pl.parser.nbp.helpers;
 
 
 import java.io.BufferedReader;
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 public final class FileHelper {
 
-  public static final Map<Long, List<String>>  getFilesToDownload(LocalDate a1, LocalDate a2) {
+  public static final Map<Long, List<String>> getFilesToDownload(LocalDate a1, LocalDate a2) {
     List<String> dataURLS = createURLsFromDates(a1, a2);
     Map<Long, List<String>> filesMap = new HashMap<>();
 
@@ -34,7 +34,7 @@ public final class FileHelper {
         Long m = (long) Math.floor(Math.random() * 20000L);
 
 
-        // startsWith changed for contains because of first fileN nme starting with zero-width space
+        // startsWith changed for contains because of first file name starting with zero-width space
         List<String> filesList = stream.filter(file -> file.contains("c") &&
           file.substring(file.length() - 6).compareTo(startingCondition) >= 0 && file.substring(file.length() - 6).compareTo(endingCondition) <= 0)
           .collect(Collectors.toList());

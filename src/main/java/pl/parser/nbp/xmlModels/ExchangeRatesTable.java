@@ -1,4 +1,4 @@
-package pl.parser.nbp;
+package pl.parser.nbp.xmlModels;
 
 
 
@@ -14,10 +14,13 @@ public class ExchangeRatesTable {
 
   @XmlElement(name = "numer_tabeli")
   private String tableNumber;
+
   @XmlElement(name = "data_notowania")
   private String recordDate;
+
   @XmlElement(name = "data_publikacji")
   private String publicationDate;
+
   @XmlElement(name = "pozycja")
   private List<Item> itemList;
 

@@ -1,4 +1,6 @@
-package pl.parser.nbp;
+package pl.parser.nbp.xmlModels;
+
+import pl.parser.nbp.helpers.BigDecimalAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,13 +15,17 @@ public class Item {
 
   @XmlElement(name = "nazwa_waluty")
   private String currencyName;
+
   @XmlElement(name = "przelicznik")
   private Long converter;
+
   @XmlElement(name = "kod_waluty")
   private String currencyCode;
+
   @XmlElement(name = "kurs_kupna")
   @XmlJavaTypeAdapter(BigDecimalAdapter.class)
   private BigDecimal buyingRate;
+
   @XmlElement(name = "kurs_sprzedazy")
   @XmlJavaTypeAdapter(BigDecimalAdapter.class)
   private BigDecimal sellingRate;

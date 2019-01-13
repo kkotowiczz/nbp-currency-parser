@@ -37,7 +37,7 @@ public class ResultCalculator {
     BigDecimal standardDeviation = buyingRates.stream()
       .reduce(BigDecimal.ZERO, (acc, currVal) -> acc.add(currVal.subtract(meanValue).pow(2)));
 
-    BigDecimal q = standardDeviation.divide(length, 4);
+    BigDecimal q = standardDeviation.divide(length, mc);
 
     return new BigDecimal(Math.sqrt(q.doubleValue()), mc);
   }

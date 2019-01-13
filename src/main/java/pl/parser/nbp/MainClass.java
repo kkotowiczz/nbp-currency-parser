@@ -40,8 +40,4 @@ public class MainClass {
     System.out.println((double) (System.nanoTime() - start) / 1_000_000_000.0);
 
   }
-
-//  private static void validateCommandLineArgs (String[] args) {
-//
-//  }
 }

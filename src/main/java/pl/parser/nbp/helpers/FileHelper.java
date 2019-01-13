@@ -29,7 +29,6 @@ public final class FileHelper {
       try (InputStream is = new URL(url).openStream();
            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
            Stream<String> stream = reader.lines()) {
-
         String extractedYearFromFilename = url.substring(url.indexOf("/dir") + 4, url.indexOf(".txt"));
         extractedYearFromFilename = "".equals(extractedYearFromFilename) ? String.valueOf(LocalDate.now().getYear()) : extractedYearFromFilename;
         Long yearKeyValue = Long.valueOf(extractedYearFromFilename);
@@ -44,7 +43,6 @@ public final class FileHelper {
         e.printStackTrace();
       }
     });
-    filesMap.entrySet().forEach(s -> System.out.println(s.getKey()));
     return filesMap;
   }
 
@@ -61,7 +59,7 @@ public final class FileHelper {
       IntStream.rangeClosed(yearRangeFrom.getYear(), yearRangeTo.getYear())
         .forEach(year -> urls.add(baseUrl + "dir" + (year != LocalDate.now().getYear() ?  year : "") + ".txt"));
     } else
-      throw new IllegalArgumentException("Invalid year passed as argument");
+        throw new IllegalArgumentException("Invalid year passed as argument");
 
     return urls;
   }

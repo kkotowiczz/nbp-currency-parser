@@ -1,11 +1,13 @@
 package pl.parser.nbp;
 
+import pl.parser.nbp.helpers.ResultCalculator;
 import pl.parser.nbp.helpers.XMLHelper;
 import pl.parser.nbp.helpers.FileHelper;
 
 import pl.parser.nbp.xmlModels.ExchangeRatesTable;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +29,12 @@ public class MainClass {
     Map<Long, List<String>> filesByYear = fileHelper.getFilesToDownload(dateRangeFrom, dateRangeTo);
     XMLHelper xmlHelper = new XMLHelper();
 
+    ResultCalculator resCalc = new ResultCalculator();
     try {
       List<ExchangeRatesTable> exchangeRatesTableByCurrency = xmlHelper.downloadXMLData(filesByYear);
-      exchangeRatesTableByCurrency.forEach(currencyTable -> System.out.println(currencyTable.getPublicationDate()));
+
+      BigDecimal mean = resCalc.calculateResult(exchangeRatesTableByCurrency, args[0]);
+      System.out.println(mean);
     } catch (IOException e) {
       e.printStackTrace();
     }

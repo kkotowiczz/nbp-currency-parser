@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class MainClass {
 
-  public static void main(String[] args) {-
+  public static void main(String[] args) {
 
     FileHelper fileHelper = new FileHelper();
 

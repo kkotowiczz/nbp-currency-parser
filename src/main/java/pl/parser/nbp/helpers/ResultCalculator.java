@@ -36,18 +36,14 @@ public class ResultCalculator {
   }
 
   private static BigDecimal calculateStandardDevation(List<BigDecimal> buyingRates, BigDecimal meanValue) {
-    MathContext mc = new MathContext(4);
+    MathContext mc = new MathContext(3);
     BigDecimal length = BigDecimal.valueOf(buyingRates.size());
 
     BigDecimal standardDeviation = buyingRates.stream()
-      .reduce(BigDecimal.ZERO, (acc, currVal) -> {
-        BigDecimal z = currVal.subtract(meanValue);
-        BigDecimal x =  z.pow(2);
-        return acc.add(x);
-      });
-    System.out.println(standardDeviation);
-    BigDecimal q = standardDeviation.divide(length, 6);
+      .reduce(BigDecimal.ZERO, (acc, currVal) -> acc.add(currVal.subtract(meanValue).pow(2)));
 
-    return new BigDecimal(Math.sqrt(q.doubleValue()));
+    BigDecimal q = standardDeviation.divide(length, 4);
+
+    return new BigDecimal(Math.sqrt(q.doubleValue()), mc);
   }
 }

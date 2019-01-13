@@ -28,6 +28,7 @@ public final class XMLHelper {
     filesByYear.entrySet().stream()
       .forEach(year -> year.getValue().forEach(fileName -> {
         HttpUriRequest request = RequestBuilder.get()
+          // replacing zero width space
           .setUri("http://www.nbp.pl/kursy/xml/" + fileName.replace("\uFEFF", "") + ".xml")
           .setHeader(HttpHeaders.CONTENT_TYPE, "text/xml")
           .build();
@@ -37,6 +38,7 @@ public final class XMLHelper {
         } catch (Exception e) {
           e.printStackTrace();
         }
+
       }));
 
     return list;

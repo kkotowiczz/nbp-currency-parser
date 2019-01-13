@@ -30,21 +30,21 @@ public final class FileHelper {
            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
            Stream<String> stream = reader.lines()) {
 
-        // before refactoring and providing year as key
-        Long m = (long) Math.floor(Math.random() * 20000L);
-
+        String extractedYearFromFilename = url.substring(url.indexOf("/dir") + 4, url.indexOf(".txt"));
+        extractedYearFromFilename = "".equals(extractedYearFromFilename) ? String.valueOf(LocalDate.now().getYear()) : extractedYearFromFilename;
+        Long yearKeyValue = Long.valueOf(extractedYearFromFilename);
 
         // startsWith changed for contains because of first file name starting with zero-width space
         List<String> filesList = stream.filter(file -> file.contains("c") &&
           file.substring(file.length() - 6).compareTo(startingCondition) >= 0 && file.substring(file.length() - 6).compareTo(endingCondition) <= 0)
           .collect(Collectors.toList());
 
-        filesMap.put(200L + m, filesList);
+        filesMap.put(yearKeyValue, filesList);
       } catch (Exception e) {
         e.printStackTrace();
       }
     });
-
+    filesMap.entrySet().forEach(s -> System.out.println(s.getKey()));
     return filesMap;
   }
 

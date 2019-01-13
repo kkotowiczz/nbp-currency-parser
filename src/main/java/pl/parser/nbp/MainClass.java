@@ -15,25 +15,30 @@ import java.util.Map;
 
 public class MainClass {
 
-    public static void main(String[] args) {
-        Long start = System.nanoTime();
+  public static void main(String[] args) {
 
-        FileHelper fileHelper = new FileHelper();
+    Long start = System.nanoTime();
 
-        LocalDate dateRangeFrom = LocalDate.parse(args[1]);
-        LocalDate dateRangeTo = LocalDate.parse(args[2]);
+    FileHelper fileHelper = new FileHelper();
 
-        Map<Long, List<String>> filesByYear = fileHelper.getFilesToDownload(dateRangeFrom, dateRangeTo);
-        XMLHelper xmlHelper = new XMLHelper();
+    LocalDate dateRangeFrom = LocalDate.parse(args[1]);
+    LocalDate dateRangeTo = LocalDate.parse(args[2]);
 
-        try {
-            List<ExchangeRatesTable> exchangeRatesTableByCurrency = xmlHelper.downloadXMLData(filesByYear);
-            exchangeRatesTableByCurrency.forEach(currencyTable -> System.out.println(currencyTable.getPublicationDate()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    Map<Long, List<String>> filesByYear = fileHelper.getFilesToDownload(dateRangeFrom, dateRangeTo);
+    XMLHelper xmlHelper = new XMLHelper();
 
-        System.out.println((double) (System.nanoTime() - start) / 1_000_000_000.0);
-
+    try {
+      List<ExchangeRatesTable> exchangeRatesTableByCurrency = xmlHelper.downloadXMLData(filesByYear);
+      exchangeRatesTableByCurrency.forEach(currencyTable -> System.out.println(currencyTable.getPublicationDate()));
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+
+    System.out.println((double) (System.nanoTime() - start) / 1_000_000_000.0);
+
+  }
+
+//  private static void validateCommandLineArgs (String[] args) {
+//
+//  }
 }

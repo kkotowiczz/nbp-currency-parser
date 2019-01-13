@@ -15,9 +15,7 @@ import java.util.Map;
 
 public class MainClass {
 
-  public static void main(String[] args) {
-
-    Long start = System.nanoTime();
+  public static void main(String[] args) {-
 
     FileHelper fileHelper = new FileHelper();
 
@@ -37,7 +35,6 @@ public class MainClass {
       e.printStackTrace();
     }
 
-    System.out.println((double) (System.nanoTime() - start) / 1_000_000_000.0);
 
   }
 }

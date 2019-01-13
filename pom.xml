@@ -10,7 +10,6 @@
 
   <name>nbp</name>
   <description>A simple nbp currency analyzer.</description>
-  <url>TODO</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

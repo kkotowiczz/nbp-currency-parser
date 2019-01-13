@@ -7,9 +7,7 @@ import pl.parser.nbp.helpers.FileHelper;
 import pl.parser.nbp.xmlModels.ExchangeRatesTable;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +31,8 @@ public class MainClass {
     try {
       List<ExchangeRatesTable> exchangeRatesTableByCurrency = xmlHelper.downloadXMLData(filesByYear);
 
-      BigDecimal mean = resCalc.calculateResult(exchangeRatesTableByCurrency, args[0]);
-      System.out.println(mean);
+      String finalResult = resCalc.calculateResult(exchangeRatesTableByCurrency, args[0]);
+      System.out.println(finalResult);
     } catch (IOException e) {
       e.printStackTrace();
     }

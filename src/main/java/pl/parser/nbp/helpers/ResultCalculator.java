@@ -1,19 +1,16 @@
 package pl.parser.nbp.helpers;
 
 import pl.parser.nbp.xmlModels.ExchangeRatesTable;
-import pl.parser.nbp.xmlModels.Item;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import java.util.stream.Collectors;
 
 public class ResultCalculator {
-  public static BigDecimal calculateResult(List<ExchangeRatesTable> currencyRates, String currencyCode) {
+  public static String calculateResult(List<ExchangeRatesTable> currencyRates, String currencyCode) {
     List<BigDecimal> buyingRates = currencyRates.stream()
       .map(rates -> rates.getItemList())
       .flatMap(item -> item.stream()
@@ -21,11 +18,9 @@ public class ResultCalculator {
         .map(buyingRate -> buyingRate.getBuyingRate())).collect(Collectors.toList());
 
     BigDecimal meanAverage = calculateMeanAverage(buyingRates);
-    BigDecimal stdDev = calculateStandardDevation(buyingRates, meanAverage);
+    BigDecimal standardDevation = calculateStandardDevation(buyingRates, meanAverage);
 
-    System.out.println(stdDev);
-
-    return meanAverage;
+    return meanAverage.toString() + " - średnia arytmetyczna " + "\n" + standardDevation.toString() + " - odchylenie standardowe";
   }
 
   private static BigDecimal calculateMeanAverage(List<BigDecimal> buyingRates) {

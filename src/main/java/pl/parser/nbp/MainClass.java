@@ -16,20 +16,16 @@ import java.util.Map;
 public class MainClass {
 
   public static void main(String[] args) {
-
-    FileHelper fileHelper = new FileHelper();
-
     LocalDate dateRangeFrom = LocalDate.parse(args[1]);
     LocalDate dateRangeTo = LocalDate.parse(args[2]);
 
-    Map<Long, List<String>> filesByYear = fileHelper.getFilesToDownload(dateRangeFrom, dateRangeTo);
-    XMLHelper xmlHelper = new XMLHelper();
+    Map<Long, List<String>> filesByYear = FileHelper.getFilesToDownload(dateRangeFrom, dateRangeTo);
 
     ResultCalculator resCalc = new ResultCalculator();
     try {
-      List<ExchangeRatesTable> exchangeRatesTableByCurrency = xmlHelper.downloadXMLData(filesByYear);
+      List<ExchangeRatesTable> exchangeRatesTableByCurrency = XMLHelper.downloadXMLData(filesByYear);
 
-      String finalResult = resCalc.calculateResult(exchangeRatesTableByCurrency, args[0]);
+      String finalResult = ResultCalculator.calculateResult(exchangeRatesTableByCurrency, args[0]);
       System.out.println(finalResult);
     } catch (IOException e) {
       e.printStackTrace();

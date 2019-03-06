@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 public final class FileHelper {
 
-  public static final Map<Long, List<String>> getFilesToDownload(LocalDate a1, LocalDate a2) {
+  public static Map<Long, List<String>> getFilesToDownload(LocalDate a1, LocalDate a2) {
     List<String> dataURLS = createURLsFromDates(a1, a2);
     Map<Long, List<String>> filesMap = new HashMap<>();
 
@@ -46,7 +46,7 @@ public final class FileHelper {
     return filesMap;
   }
 
-  private static final List<String> createURLsFromDates(LocalDate yearRangeFrom, LocalDate yearRangeTo) {
+  private static List<String> createURLsFromDates(LocalDate yearRangeFrom, LocalDate yearRangeTo) {
     String baseUrl = "https://www.nbp.pl/kursy/xml/";
     List<String> urls = new ArrayList<>();
 
@@ -64,11 +64,11 @@ public final class FileHelper {
     return urls;
   }
 
-  private static final String correctDateValue(int dateValue) {
+  private static String correctDateValue(int dateValue) {
     return Integer.toString(dateValue).length() == 1 ? "0" + dateValue : Integer.toString(dateValue);
   }
 
-  private static final String prepareFileNameRanges(int year, int month, int day) {
+  private static String prepareFileNameRanges(int year, int month, int day) {
     return Integer.toString(year).substring(2) + correctDateValue(month) + correctDateValue(day);
   }
 

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public final class XMLHelper {
+public class XMLHelper {
   public static List<ExchangeRatesTable> downloadXMLData(Map<Long, List<String>> filesByYear) throws IOException {
 
     HttpClient client = HttpClients.custom().build();
@@ -41,7 +41,7 @@ public final class XMLHelper {
   }
 
 
-  private static final ExchangeRatesTable unmarshall(InputStream is) throws JAXBException, IOException {
+  private static ExchangeRatesTable unmarshall(InputStream is) throws JAXBException, IOException {
     JAXBContext context = JAXBContext.newInstance(ExchangeRatesTable.class);
     return (ExchangeRatesTable) context.createUnmarshaller().unmarshal(is);
   }

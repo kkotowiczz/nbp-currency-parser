@@ -20,11 +20,10 @@ public final class FileHelper {
     List<String> dataURLS = createURLsFromDates(a1, a2);
     Map<Long, List<String>> filesMap = new HashMap<>();
 
-
     String startingCondition = prepareFileNameRanges(a1.getYear(), a1.getMonthValue(), a1.getDayOfMonth());
     String endingCondition = prepareFileNameRanges(a2.getYear(), a2.getMonthValue(), a2.getDayOfMonth());
 
-
+    long start = System.currentTimeMillis();
     dataURLS.forEach(url -> {
       try (InputStream is = new URL(url).openStream();
            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -43,6 +42,7 @@ public final class FileHelper {
         e.printStackTrace();
       }
     });
+    System.out.println("Requests :" + (System.currentTimeMillis() - start));
     return filesMap;
   }
 

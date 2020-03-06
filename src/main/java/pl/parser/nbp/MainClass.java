@@ -23,9 +23,12 @@ public class MainClass {
 
     ResultCalculator resCalc = new ResultCalculator();
     try {
+      long x = System.currentTimeMillis();
       List<ExchangeRatesTable> exchangeRatesTableByCurrency = XMLHelper.downloadXMLData(filesByYear);
-
+      System.out.println("actual requests  " + (System.currentTimeMillis() - x));
+      long z = System.currentTimeMillis();
       String finalResult = ResultCalculator.calculateResult(exchangeRatesTableByCurrency, args[0]);
+      System.out.println("calculations " + (System.currentTimeMillis() - z));
       System.out.println(finalResult);
     } catch (IOException e) {
       e.printStackTrace();

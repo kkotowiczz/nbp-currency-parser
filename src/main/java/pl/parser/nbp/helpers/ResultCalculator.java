@@ -1,6 +1,7 @@
 package pl.parser.nbp.helpers;
 
-import pl.parser.nbp.xmlModels.ExchangeRatesTable;
+import pl.parser.nbp.xmlModels.ExchangeRatesSeries;
+import pl.parser.nbp.xmlModels.Rate;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -10,12 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ResultCalculator {
-  public static String calculateResult(List<ExchangeRatesTable> currencyRates, String currencyCode) {
+  public static String calculateResult(List<ExchangeRatesSeries> currencyRates) {
     List<BigDecimal> buyingRates = currencyRates.stream()
-      .map(rates -> rates.getItemList())
-      .flatMap(item -> item.stream()
-        .filter(buyingRate -> buyingRate.getCurrencyCode().equals(currencyCode))
-        .map(buyingRate -> buyingRate.getBuyingRate())).collect(Collectors.toList());
+      .flatMap(rates -> rates.getRates().stream().map(Rate::getBid)).collect(Collectors.toList());
 
     BigDecimal meanAverage = calculateMeanAverage(buyingRates);
     BigDecimal standardDevation = calculateStandardDevation(buyingRates, meanAverage);

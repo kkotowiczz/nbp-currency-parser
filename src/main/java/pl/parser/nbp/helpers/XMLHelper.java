@@ -16,6 +16,9 @@ import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class XMLHelper {
@@ -23,9 +26,11 @@ public class XMLHelper {
   private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
   public static List<ExchangeRatesSeries> downloadXMLData(Map<Integer, List<LocalDate>> files, String currency) throws IOException, ClientProtocolException {
-    return files.values().stream().map(dates -> {
-      String url  = "http://api.nbp.pl/api/exchangerates/rates/c/" + currency.toLowerCase()
-        + "/" + dates.get(0) + "/" + dates.get(dates.size() - 1) + "/?format=xml";
+    Executor ex = getExecutor(files.keySet().size());
+    List<CompletableFuture<ExchangeRatesSeries>> completableFutures = files.values().stream().map(dates ->
+      CompletableFuture.supplyAsync(() -> {
+        String url  = "http://api.nbp.pl/api/exchangerates/rates/c/" + currency.toLowerCase()
+          + "/" + dates.get(0) + "/" + dates.get(dates.size() - 1) + "/?format=xml";
         System.out.println(url);
         HttpGet request = new HttpGet(url);
 
@@ -39,7 +44,18 @@ public class XMLHelper {
           e.printStackTrace();
           return null;
         }
-      }).collect(Collectors.toList());
+      }, ex)
+    ).collect(Collectors.toList());
+
+    return completableFutures.stream().map(CompletableFuture::join).collect(Collectors.toList());
+  }
+
+  private static Executor getExecutor(int threads) {
+    return Executors.newFixedThreadPool(threads, (Runnable r) -> {
+      Thread t = new Thread(r);
+      t.setDaemon(true);
+      return t;
+    });
   }
 }
 

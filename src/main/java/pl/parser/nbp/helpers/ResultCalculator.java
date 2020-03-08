@@ -16,9 +16,9 @@ public class ResultCalculator {
       .flatMap(rates -> rates.getRates().stream().map(Rate::getBid)).collect(Collectors.toList());
 
     BigDecimal meanAverage = calculateMeanAverage(buyingRates);
-    BigDecimal standardDevation = calculateStandardDevation(buyingRates, meanAverage);
+    BigDecimal standardDeviation = calculateStandardDeviation(buyingRates, meanAverage);
 
-    return meanAverage.toString() + " - średnia arytmetyczna " + "\n" + standardDevation.toString() + " - odchylenie standardowe";
+    return meanAverage.toString() + " - średnia arytmetyczna " + "\n" + standardDeviation.toString() + " - odchylenie standardowe";
   }
 
   private static BigDecimal calculateMeanAverage(List<BigDecimal> buyingRates) {
@@ -28,7 +28,7 @@ public class ResultCalculator {
     return result.divide(length, 4, RoundingMode.HALF_UP);
   }
 
-  private static BigDecimal calculateStandardDevation(List<BigDecimal> buyingRates, BigDecimal meanValue) {
+  private static BigDecimal calculateStandardDeviation(List<BigDecimal> buyingRates, BigDecimal meanValue) {
     MathContext mc = new MathContext(3);
     BigDecimal length = BigDecimal.valueOf(buyingRates.size());
 
